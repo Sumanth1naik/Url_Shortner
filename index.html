@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+      background: #f7f7f7;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .response {
+      background: #e0ffe0;
+      padding: 15px;
+      border-radius: 5px;
+      color: #0a0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simple URL Shortener</h1>
+
+  <input type="text" id="longUrl" placeholder="Enter Long URL">
+  <button onclick="shortenUrl()">Shorten URL</button>
+
+  <button onclick="window.open('http://localhost:8080/expander')">Expand URL</button>
+
+  <div id="result" class="response" style="display: none;"></div>
+
+  <script>
+   function shortenUrl() {
+  const longUrl = document.getElementById("longUrl").value;
+
+  console.log("Inside the function. Long URL:", longUrl);
+
+  fetch(`http://localhost:8080/shortUrl?longUrl=${encodeURIComponent(longUrl)}`)
+    .then(response => response.text())
+    .then(data => {
+      const resultBox = document.getElementById("result");
+      resultBox.innerText = data;
+      resultBox.style.display = "block";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+}
+  </script>
+
+</body>
+</html>
